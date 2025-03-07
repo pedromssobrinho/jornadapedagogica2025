@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Certificado da Jornada Pedagógica 2025</title>
+  <style>
+    /* Estilo moderno e responsivo */
+    body {
+      background-color: #f4f4f4;
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+    .container {
+      max-width: 100%;
+      margin: 20px;
+      background: #fff;
+      padding: 40px;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      align-content: center;
+      justify-content: center;
+    }
+    h1 {
+      text-align: center;
+      color: #333;
+      font-size: 1.5rem;
+    }
+
+    p {
+      margin-bottom: 25px;
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+    input[type="text"] {
+      padding: 10px;
+      font-size: 16px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+    button {
+      padding: 12px;
+      font-size: 16px;      
+      border: none;
+      border-radius: 4px;
+      background-color: #007BFF;
+      color: #fff;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #0056b3;
+    }
+    .result {
+      text-align: center;
+      margin-bottom: 20px;
+      margin-top: 20px;
+    }
+    .download-btn {
+      padding: 12px 20px;
+      background-color: #28a745;
+      margin-top: 10px;
+      color: #fff;
+      border: none;
+      border-radius: 4px;
+      text-decoration: none;
+      font-size: 16px;
+    }
+    .download-btn:hover {
+      background-color: #218838;
+    }
+
+    .logoplace {
+      margin: 10px;
+      background: #fff;
+      padding: 5px;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      justify-content: center;
+      align-items: center;
+      text-align: center;            
+    }
+
+    .logofoot {
+      margin-top: 10px;
+      background: #fff;
+      padding: 10px;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+    }
+
+    .imgfoot {
+      width: 20%;
+      text-align: center;      
+    }
+
+    .imglogo {
+      width: 50%;
+      text-align: center;      
+    }
+
+  </style>
+</head>
+<body>
+  <div class="logoplace">
+    <img class="imglogo" src="logojp.png">    
+  </div> 
+  <div class="container">
+    <h1>Certificado da Jornada Pedagógica 2025:<br>"Educação que Acolhe"</h1>
+    <form id="cpfForm">
+      <input type="text" id="cpfInput" placeholder="Digite o seu CPF aqui" required>
+      <button type="submit">Pesquisar</button>
+    </form>
+    <div class="result" id="result"></div>
+  </div>
+  <div class="logofoot">
+    <img class="imgfoot" src="logosec.png">
+  </div>
+  <script>
+    // Função para formatar o CPF no formato 000.000.000-00
+    function formatCPF(value) {
+      // Remove qualquer caractere que não seja número
+      value = value.replace(/\D/g, '');
+      // Limita a 11 dígitos
+      value = value.substring(0, 11);
+      // Aplica a máscara conforme o tamanho
+      if (value.length > 9) {
+        value = value.replace(/(\d{3})(\d{3})(\d{3})(\d{1,2})/, '$1.$2.$3-$4');
+      } else if (value.length > 6) {
+        value = value.replace(/(\d{3})(\d{3})(\d+)/, '$1.$2.$3');
+      } else if (value.length > 3) {
+        value = value.replace(/(\d{3})(\d+)/, '$1.$2');
+      }
+      return value;
+    }
+
+    // Evento para formatar o CPF conforme o usuário digita
+    const cpfInput = document.getElementById('cpfInput');
+    cpfInput.addEventListener('input', function(e) {
+      let cursorPosition = cpfInput.selectionStart;
+      let originalLength = cpfInput.value.length;
+      cpfInput.value = formatCPF(cpfInput.value);
+      let newLength = cpfInput.value.length;
+      // Ajusta a posição do cursor
+      cursorPosition = cursorPosition + (newLength - originalLength);
+      cpfInput.setSelectionRange(cursorPosition, cursorPosition);
+    });
+
+    // Evento de submit do formulário
+    document.getElementById('cpfForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      // Remove a formatação para enviar somente os dígitos
+      var cpf = cpfInput.value.replace(/\D/g, '');
+      if (!cpf) return;
+      document.getElementById('result').innerHTML = 'Verificando...';
+
+      // INSIRA AQUI A URL PUBLICADA DO SEU APPS SCRIPT, sem adicionar "/index.html"
+      var scriptUrl = 'https://script.google.com/macros/s/AKfycbx1TxPsG7zyBr8Uh0x04BUmVmSSpbQJMxS-8seb5nQYdedNa-iTrcv68PvM_xCcVwd4/exec?cpf=' + encodeURIComponent(cpf);
+      
+      fetch(scriptUrl)
+        .then(response => response.json())
+        .then(data => {
+          if(data.success) {
+            document.getElementById('result').innerHTML = 
+              '<p>Aqui está o seu certificado, <b>' + data.nome + '!</p> <p><br>Obrigado por participar da Jornada Pedagógica 2025!</p>' +
+              '<a class="download-btn" href="' + data.link + '" target="_blank">Download</a>';
+          } else {
+            document.getElementById('result').innerHTML = '<p>Não conseguimos atestar a sua presença na Jornada Pedagógica. Se você participou dos dois dias e acredita que isso seja um erro, procure a Secretaria Municipal de Educação para se informar sobre a emissão do seu certificado.</p>';
+          }
+        })
+        .catch(error => {
+          console.error('Erro:', error);
+          document.getElementById('result').innerHTML = '<p>Ocorreu um erro ao pesquisar. Se o erro persistir, procure a Secretaria Municipal de Educação para se informar sobre a emissão do seu certificado.</p>';
+        });
+    });
+  </script>
+</body>
+</html>
