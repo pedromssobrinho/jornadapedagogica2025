@@ -171,7 +171,7 @@
               '<p>Tudo certo! Aqui está o seu certificado, <b>' + data.nome + '.</p> <p><br>Obrigado por participar da Jornada Pedagógica 2025!</p>' +
               '<a class="download-btn" href="' + data.link + '" target="_blank">Download</a>';
           } else {
-            document.getElementById('result').innerHTML = '<p>Não conseguimos atestar a sua presença na Jornada Pedagógica. Se você participou dos dois dias e acredita que isso seja um erro, procure a Secretaria Municipal de Educação para se informar sobre a emissão do seu certificado.</p>';
+            document.getElementById('result').innerHTML = '<p>Não foi possível confirmar sua participação na Jornada Pedagógica. Se você esteve presente em ambos os dias e acredita que isso seja um equívoco, entre em contato com a Secretaria Municipal de Educação para obter esclarecimentos sobre a emissão do seu certificado.</p>';
           }
         })
         .catch(error => {
